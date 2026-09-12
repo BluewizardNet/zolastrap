@@ -1,8 +1,4 @@
 {% extends "base.html" %}
-{% import "macros/post.html" as post %}
-{% import "macros/posts.html" as posts %}
-{% import "macros/paginator.html" as paginator %}
-{% import "macros/header.html" as header %}
 
 {% block content %}
   {% for row in section.extra.home | default(value=[]) %}
@@ -10,7 +6,7 @@
       {% for item in row %}
         <div class="col-md-{{item.size}}">
           {% if item.title %}
-            {{header::render(text=item.title)}}
+            {{<header.render text={item.title} />}}
           {% endif %}
 
           {% if item.section %}
@@ -20,14 +16,14 @@
               {% set_global start = item.start %}
               {% for row in item.rows %}
                 {% set end = start + row %}
-                {% set pages = articles.pages | slice(start=start, end=end) %}
-                {{posts::render(pages=pages, type=type, row=row)}}
+                {% set pages = articles.pages[start:end]  %}
+                {{<posts.render pages={pages} type={type} row={row} />}}
                 {% set_global start = end %}
               {% endfor %}
             {% else %}
-              {% set pages = articles.pages | slice(start=item.start, end=item.end) %}
+              {% set pages = articles.pages[item.start:item.end] %}
               {% set row = item.row | default(value=0) %}
-              {{posts::render(pages=pages, type=type, row=row)}}
+              {{<posts.render pages={pages} type={type} row={row} />}}
             {% endif %}
           {% else %}
             {% if item.text %}
@@ -78,11 +74,11 @@
     <div class="content px-3">{{section.content | safe}}</div>
   {% endif %}
 	{% for page in paginator.pages %}
-    {{post::render(page=page)}}
+    {{<post.render page={page} />}}
 	{% endfor %}
-  {{paginator::render(paginator=paginator)}}
+  {{<paginator.render paginator={paginator} />}}
   {% if section.extra.tags %}
-    {{header::render(text=config.extra.tags)}}
+    {{<header.render text={config.extra.tags} />}}
     {% set tags = get_taxonomy(kind="tags") %}
     {% for item in tags.items %}
       <a

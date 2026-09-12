@@ -1,4 +1,5 @@
-{% macro render(paginator)%}
+
+{% component paginator.render(paginator) %}
   {% if paginator.number_pagers > 1 %}
   <nav>
     <ul class="pagination">
@@ -21,4 +22,5 @@
     </ul>
   </nav>
   {% endif %}
-{% endmacro %}
+
+{% endcomponent paginator.render %}

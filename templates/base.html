@@ -5,7 +5,7 @@
     <title>{% block title %}{{config.title}}{% endblock %}</title>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=2">
     <link rel="stylesheet" href="/css/all.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous"/>
     {% if config.extra.themes %}
       {% for theme in config.extra.data_themes %}
@@ -89,8 +89,9 @@
               <li class="nav-item">
                 <a
                   class="nav-link"
-                  href="{% if not link.url is containing("://") %}{{config.base_url}}{% endif %}{{link.url}}"
-                >{{link.title}}</a>
+                  href="{{ get_url(path=link.url) }}">
+                  {{link.title}}
+              </a>
               </li>
             {% endfor %}
             {% if config.extra.themes %}

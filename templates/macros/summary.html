@@ -1,11 +1,12 @@
-{% macro render(page) %}
-  <p class="card-text text-muted">
-    {% if page.summary %}
+{% component summary.render(page) %}
+
+  {% if page.summary %}
       <small>{{page.summary | striptags}}...</small>
     {% else %}
       <small>{{
-        page.content | striptags | split(pat=" ") | slice(end=50) | join(sep=" ")
+        page.content | striptags | split(pat=" ")[:50] | join(sep=" ")
       }}...</small>
     {% endif %}
   </p>
-{% endmacro %}
+
+{% endcomponent summary.render %}
